@@ -1,0 +1,33 @@
+{
+  "name": "bitmask_space",
+  "version": "0.0.1",
+  "description": "Bitmask Space allows you to define a space of bitmasks, all of which represent",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "tests"
+  },
+  "dependencies": {
+    "colors": "^1.4.0",
+    "lodash": "^4.17.15",
+    "rubyjs": "^0.7.2"
+  },
+  "devDependencies": {
+    "mocha": "^6.2.2"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@bitbucket.org/codescrum/js-bitmask_space.git"
+  },
+  "keywords": [
+    "bitmask",
+    "bitmap",
+    "bitwise"
+  ],
+  "author": "Miguel Diaz",
+  "license": "MIT",
+  "homepage": "https://bitbucket.org/codescrum/js-bitmask_space#readme"
+}
