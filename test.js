@@ -1,15 +1,102 @@
 var assert = require('assert');
 _ = require('lodash');
+var colors = require('colors');
+
+// Basic configuration
+users_per_team            = 10 // Number of users per team
+team_count                = 4    // Number of teams
+users_with_no_team_factor = 0    // Proportion of users with no team (use valurs from 0 to INF) example: 0.25
+
+// Advanced configuration
+team_collission_factor    = 0    // 0 means no collission, increase the number as an integer to increase likelyhood of collission
+                                 // No collission means that teams do not repeat team members
 
 function range(start, end) {
   return Array(end - start + 1).fill().map((_, idx) => start + idx)
 }
 
-// https://stackoverflow.com/questions/1431094/how-do-i-replace-a-character-at-a-particular-index-in-javascript
+function zeroPad(num, places) {
+  return String(num).padStart(places, '0')
+}
+
+// This is required!, you cannot trust the toString(2) method alone, since you
+// need to pad the output to the length of the all_elements array!
+function bitmap_to_string(all_elements, bitmap){
+  unpadded_bitmap_string = bitmap.toString(2)
+  space_size = all_elements.length // Defining new concept here for later encapsulation
+  return _.pad(unpadded_bitmap_string, space_size, '0')
+}
+
+// search a given element in a bitmap
+function search_in_bitmap(all_elements, bitmap, element, implementation = 'string'){
+  if(implementation === "string"){
+
+    bitmap_string = bitmap_to_string(all_elements, bitmap) // Convert the bitmap to its binary representation as astring
+    index = all_elements.indexOf(element) // check the index in the array of all elements
+    console.log("index is: " +  index)
+    if(index === -1) throw "Element " + element + " not found." // element not found
+    console.log("bitmap_string is: " +  bitmap_string)
+    console.log("bitmap_string.charAt(index) is: " +  bitmap_string.charAt(index))
+    return bitmap_string.charAt(index) === '1'
+
+  }else if(implementation === "bitmask"){
+    throw "Not implemented yet! -> Idea is to do a bitwise mask on the bitmap with 2^pos and check if >0"
+  }
+}
+
+// Easily inspect the elements of a bitmap
+function print(all_elements, bitmap, highlighted_elements){
+  chunk_size = 10
+
+  highlighted_bitmap_string = highlight_bitmap_elements(all_elements, bitmap_to_string(all_elements, bitmap), highlight_bitmap_elements)
+  bits = highlighted_bitmap_string.split('') // Split to bits
+  // _.chunk(bits, chunk_size)
+
+  max = Math.max(...all_elements) // Get the max out of all elements (assuming they are integers)
+  digits = Math.floor(Math.log10(max)) + 1 // Get how many digits it requires
+
+  all_elements_padded = _.map(all_elements, function(element){
+    return zeroPad(element, digits)
+  })
+
+  // all_elements_padded_chunked = _.chunk(all_elements_padded, chunk_size)
+
+  // _.each(highlighted_elements, function(element){
+  //
+  // };
+
+  output = _.zip(all_elements_padded, bits)
+
+  _.each(output, function(output_pair){
+    console.log("" + output_pair[0] + ":" + output_pair[1])
+  });
+
+}
+
+function highlight_bitmap_elements(all_elements, bitmap_string, elements){
+  _.each(elements, function(element){
+    index = all_elements.indexOf(element)
+    if(index === -1) throw "Element " + element + " not found." // element not found
+    bitmap_string = replaceCharAtArray(bitmap_string, index, bitmap_string.charAt(index).green) // Replace a "1" in positions where the element is found
+  });
+  return bitmap_string
+}
+
+
+// This is the least efficient way according to https://stackoverflow.com/questions/1431094/how-do-i-replace-a-character-at-a-particular-index-in-javascript
+// TIP: Optimize even further using split and join, see arrayReplaceCharAt below
 function replaceCharAt(string, index, char){
   if(index > string.length-1) return string;
   return string.substr(0,index) + char + string.substr(index+1);
 }
+
+function arrayReplaceCharAt(string, index, char){
+  if(index > string.length-1) return string;
+  letters = string.split('')
+  letters[index] = char
+  return letters.join('')
+}
+
 
 // all_elements: The set within to constrain the map (an array of all possible elements)
 //               This array must have unique values
@@ -17,19 +104,21 @@ function replaceCharAt(string, index, char){
 //               It is not necessary that this array is unique
 // returns a string where positions of elements  "10001010110100000...011"
 function elements_to_bitmap_string(all_elements, elements) {
-  bitmap_string = "0".repeat(all_elements.length)
+  bitmap_string = "0".repeat(all_elements.length) // Create a string full of 0's, the same size as the array of all elements
   _.each(elements, function(element){
     index = all_elements.indexOf(element)
     if(index === -1) throw "Element " + element + " not found." // element not found
-    bitmap_string = replaceCharAt(bitmap_string, index, "1")
+    bitmap_string = replaceCharAt(bitmap_string, index, '1') // Replace a "1" in positions where the element is found
   });
   return bitmap_string
 }
 
+// Return the actual BigInt object suitable for bitwise operations
 function elements_to_bitmap(all_elements, elements) {
   return BigInt("0b" + elements_to_bitmap_string(all_elements, elements))
 }
 
+// Just a simple test
 function test(){
   strBits1 = elements_to_bitmap_string([16,13,14,21,20,25,35,37,30], [13,14,16,25,30,37])
   assert.equal(strBits1, "111001011","Test 1 failed")
@@ -46,15 +135,13 @@ test() //validate
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-users_per_team = 5000
-team_count = 3
 
 users_in_teams_count = users_per_team*team_count
-all_user_count = Math.round(users_in_teams_count*1) // Add 25% more users not in teams
+all_user_count = Math.round(users_in_teams_count*(users_with_no_team_factor+1)) // Add 25% more users not in teams
 
-user_ids = range(1,all_user_count)
+all_user_ids = _.shuffle(range(1,all_user_count)) // Shuffle to make sure it does not have anything to do with the order
 
-team_collission_factor = 0 // 0 means no collision, increase the number as an integer to increase likelyhood of collission
+
 
 number_of_layers = team_collission_factor + 1
 // We iterate at least once to create the teams
@@ -62,7 +149,7 @@ number_of_layers = team_collission_factor + 1
 
 layers = _.flatMap(range(1, number_of_layers),function(i){
   console.log("Creating team id layer "+ i)
-  users_in_teams_ids = _.sampleSize(user_ids, users_in_teams_count)
+  users_in_teams_ids = _.sampleSize(all_user_ids, users_in_teams_count)
   return _.chunk(users_in_teams_ids, users_per_team)
 });
 
@@ -96,28 +183,60 @@ merged_stacks.map(function(group, index){
   teams[`team_${index+1}`] = group
 });
 console.log("END -   creating_team hashes {'team_1': [12,45,...]}")
-//console.log(user_ids_per_team)
+//console.log(all_user_ids_per_team)
 
 team_bitmaps = {}
-// all_users_bitmap = BigInt("0b" + "0".repeat(all_user_count))
 
 console.log("BEGIN - creating_team bitmaps!")
 _.each(teams, function(ids, team_id){
   // console.log("team_id: " + team_id)
   // console.log("ids: " + ids)
-  team_bitmaps[team_id] = elements_to_bitmap(user_ids, ids)
+  team_bitmaps[team_id] = elements_to_bitmap(all_user_ids, ids)
 });
 console.log("END -   creating_team bitmaps!")
 // console.log(team_bitmaps)
 
-final = _.reduce(team_bitmaps, function(a, team_bitmap){
-  return (a | team_bitmap)
-},);
+// TEST: OR-ing all of the teams!
+//
+// final = _.reduce(team_bitmaps, function(a, team_bitmap){
+//   return (a | team_bitmap)
+// },);
+//
+// console.log(final)
+// console.log(bitmap_to_string(all_user_ids, final))
 
-console.log(final)
-console.log(final.toString(2))
+// TEST: AND-ing all of the teams!
+// final = _.reduce(team_bitmaps, function(a, team_bitmap){
+//   return (a & team_bitmap)
+// },);
+//
+// console.log(final)
+// console.log(bitmap_to_string(all_user_ids, final))
+
+
+all_users_bitmap = BigInt("0b" + "1".repeat(all_user_count)) // By definition it is all to "1"
+chosen_team = "team_1"
+team1_bitmap = team_bitmaps[chosen_team]
+console.log("Bitmap for " + chosen_team + "\n")
+console.log(bitmap_to_string(all_user_ids, team1_bitmap))
+
+// chosen_user_id = _.sample(all_user_ids) // Chose from all users at random
+chosen_user_id = _.sample(teams[chosen_team]) // Make sure it is from a chosen team
+
+console.log("All user ids: " + all_user_ids)
+
+
+console.log("chosen_user_id: " + chosen_user_id)
+found = search_in_bitmap(all_user_ids, team1_bitmap, chosen_user_id)
+console.log("found: " + found)
+
+
+// print(all_user_ids, team1_bitmap, [chosen_user_id])
+
+console.log(arrayReplaceCharAt("123456789", 4, "X"))
+
 
 // test_big_int = BigInt("0b0000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000000001000000001000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000100000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000100100001001000000000000000000000001000000000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000001000000000010000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000010000000000000000000100000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000001000000000000000000000000000010000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000010000000000000010000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001000000000000000100000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010100000000000000000000000000000000001000000000000000000000000000000000000000000000000001000000000000000000000100000000010000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000001000000000000000000000000000001000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000010000000000000010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000100000000000100000000100000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000000000000000000000000010000000000000000001000000000000000000000000000000000000000000000000001000000000000001000000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010000000100000000000000000000000000000000000000000000000000000000000000000000000000010000010010000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000100000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010000000000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000010000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000")
 //
 // console.log(test_big_int)
-// console.log(test_big_int.toString(2))
+// console.log(bitmap_to_string(all_user_ids, test_big_int))
