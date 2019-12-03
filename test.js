@@ -24,7 +24,7 @@ function zeroPad(num, places) {
 function bitmap_to_string(all_elements, bitmap){
   unpadded_bitmap_string = bitmap.toString(2)
   space_size = all_elements.length // Defining new concept here for later encapsulation
-  return _.pad(unpadded_bitmap_string, space_size, '0')
+  return _.padStart(unpadded_bitmap_string, space_size, '0')
 }
 
 // search a given element in a bitmap
@@ -65,10 +65,16 @@ function print(all_elements, bitmap, highlighted_elements){
   //
   // };
 
-  output = _.zip(all_elements_padded, bits)
+  all_indexes = _.map(range(1, all_elements.length), function(i){
+    return zeroPad(i - 1, digits)
+  })
 
-  _.each(output, function(output_pair){
-    console.log("" + output_pair[0] + ":" + output_pair[1])
+
+  output = _.zip(all_indexes, all_elements_padded, bits)
+
+  console.log("index | element | bit")
+  _.each(output, function(output_triplet){
+    console.log("" + output_triplet[0] + " | " + output_triplet[1] + " | " + output_triplet[2])
   });
 
 }
@@ -120,10 +126,16 @@ function elements_to_bitmap(all_elements, elements) {
 
 // Just a simple test
 function test(){
-  strBits1 = elements_to_bitmap_string([16,13,14,21,20,25,35,37,30], [13,14,16,25,30,37])
-  assert.equal(strBits1, "111001011","Test 1 failed")
-  console.log(strBits1)
-  //assert(elements_to_bitmap_string([16,13,14,21,20,25,35,37,30], [13,14,16,25,30,37]), ,"Test 2 failed")
+  assert.equal("111001011", elements_to_bitmap_string([16,13,14,21,20,25,35,37,30], [13,16,14,25,30,37]), "elements_to_bitmap_string - Test 1 failed")
+  assert.equal("011001011", elements_to_bitmap_string([16,13,14,21,20,25,35,37,30], [13,14,25,30,37]), "elements_to_bitmap_string - Test 2 failed")
+  assert.equal("000000000", elements_to_bitmap_string([16,13,14,21,20,25,35,37,30], []), "elements_to_bitmap_string - Test 3 failed")
+  assert.equal("111111111", elements_to_bitmap_string([16,13,14,21,20,25,35,37,30], [13,14,16,20,21,25,35,37,30]), "elements_to_bitmap_string - Test 3 failed")
+  assert.equal("011001011", bitmap_to_string([16,13,14,21,20,25,35,37,30], BigInt("0b011001011")), "bitmap_to_string - Test 1 failed")
+  assert.equal("111001011", bitmap_to_string([16,13,14,21,20,25,35,37,30], BigInt("0b111001011")), "bitmap_to_string - Test 2 failed")
+  assert.equal("000000000", bitmap_to_string([16,13,14,21,20,25,35,37,30], BigInt("0b000000000")), "bitmap_to_string - Test 3 failed")
+  assert.equal("000000001", bitmap_to_string([16,13,14,21,20,25,35,37,30], BigInt("0b000000001")), "bitmap_to_string - Test 4 failed")
+  assert.equal("100000000", bitmap_to_string([16,13,14,21,20,25,35,37,30], BigInt("0b100000000")), "bitmap_to_string - Test 5 failed")
+  assert.equal("100000001", bitmap_to_string([16,13,14,21,20,25,35,37,30], BigInt("0b100000001")), "bitmap_to_string - Test 6 failed")
 }
 
 test() //validate
@@ -231,7 +243,7 @@ found = search_in_bitmap(all_user_ids, team1_bitmap, chosen_user_id)
 console.log("found: " + found)
 
 
-// print(all_user_ids, team1_bitmap, [chosen_user_id])
+print(all_user_ids, team1_bitmap, [chosen_user_id])
 
 console.log(arrayReplaceCharAt("123456789", 4, "X"))
 
