@@ -3,12 +3,12 @@ _ = require('lodash');
 var colors = require('colors');
 
 // Basic configuration
-users_per_team            = 10 // Number of users per team
-team_count                = 100    // Number of teams
-users_with_no_team_factor = 0    // Proportion of users with no team (use valurs from 0 to INF) example: 0.25
+users_per_team            = 500 // Number of users per team
+team_count                = 40    // Number of teams
+users_with_no_team_factor = 0.25    // Proportion of users with no team (use valurs from 0 to INF) example: 0.25
 
 // Advanced configuration
-team_collission_factor    = 0    // 0 means no collission, increase the number as an integer to increase likelyhood of collission
+team_collission_factor    = 1    // 0 means no collission, increase the number as an integer to increase likelyhood of collission
                                  // No collission means that teams do not repeat team members
 
 function range(start, end) {
