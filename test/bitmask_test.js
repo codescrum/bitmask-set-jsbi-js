@@ -16,12 +16,31 @@ describe('Bitmask', function() {
     });
   });
 
-  describe('#elements_to_bitmask_string', function() {
-    it('creates the bitmask string based on the space and elements', function() {
-      let bitmask_space = new BitmaskSpace([1,2,3,4,5,6,7,8])
-      let bitmask = bitmask_space.bitmask([2,4,5,6,8])
-      bitmask.toString()
+  describe('representations', function() {
 
+    var small_random_space;
+    var small_ordered_space;
+
+    before(function(done){
+        let elements = [0,8,1,9,3,2,4,6,7,5]
+        small_random_space = new BitmaskSpace(elements)
+        small_ordered_space = new BitmaskSpace(elements, {'sort': true})
+        done();
+    });
+    it('creates the bitmask string based on the space and elements', function() {
+      let bitmask = small_random_space.bitmask(_.shuffle([9,2,4,6,5])) // Test shuffling it
+
+      // String should follow the space order
+      assert.equal(bitmask.toString(),"0010111001")
+      assert.equal(bitmask.toBigInt(),185n)
+    });
+
+    it('creates the bitmask string based on the space and elements', function() {
+      let bitmask = small_ordered_space.bitmask(_.shuffle([1,2,3,4,5])) // Test shuffling it
+
+      // String should follow the space order
+      assert.equal(bitmask.toString(),"0111110000")
+      assert.equal(bitmask.toBigInt(),496n)
     });
   });
 
