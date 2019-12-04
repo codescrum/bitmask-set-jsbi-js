@@ -31,18 +31,18 @@ describe('Bitmask', function() {
       let bitmask = small_random_space.bitmask(_.shuffle([9,2,4,6,5])) // Test shuffling it
 
       // String should follow the space order
-      assert.equal(bitmask.toString(),"0010111001")
-      assert.equal(bitmask.toBigInt(),185n)
-      assert.equal(bitmask.bits(),185n)
+      assert.equal(bitmask.toString(), "0010111001")
+      assert.equal(bitmask.toBigInt(), 185n)
+      assert.equal(bitmask.bits, 185n)
     });
 
     it('creates the bitmask string based on the space and elements', function() {
       let bitmask = small_ordered_space.bitmask(_.shuffle([1,2,3,4,5])) // Test shuffling it
 
       // String should follow the space order
-      assert.equal(bitmask.toString(),"0111110000")
-      assert.equal(bitmask.toBigInt(),496n)
-      assert.equal(bitmask.bits(),496n)
+      assert.equal(bitmask.toString(), "0111110000")
+      assert.equal(bitmask.toBigInt(), 496n)
+      assert.equal(bitmask.bits, 496n)
     });
   });
 
