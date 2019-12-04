@@ -16,11 +16,7 @@ describe('Bitmask', function() {
     });
   });
 
-
-  //////////////////////////////////////////////////////////////////////////////
-  // Representations
-  //////////////////////////////////////////////////////////////////////////////
-  describe('Representations', function() {
+  describe('With valid spaces', function() {
 
     var small_random_space;
     var small_ordered_space;
@@ -31,54 +27,74 @@ describe('Bitmask', function() {
         small_ordered_space = new BitmaskSpace(elements, {'sort': true})
         done();
     });
-    it('creates the bitmask string based on the space and elements', function() {
-      let bitmask = small_random_space.bitmask(_.shuffle([9,2,4,6,5])) // Test shuffling it
 
-      // String should follow the space order
-      assert.equal(bitmask.toString(), "0010111001")
-      assert.equal(bitmask.toBigInt(), 185n)
-      assert.equal(bitmask.bits, 185n)
+    //////////////////////////////////////////////////////////////////////////////
+    // Representations
+    //////////////////////////////////////////////////////////////////////////////
+    describe('Representations', function() {
+
+      it('creates the bitmask string based on the space and elements', function() {
+        let bitmask = small_random_space.bitmask(_.shuffle([9,2,4,6,5])) // Test shuffling it
+
+        // String should follow the space order
+        assert.equal(bitmask.toString(), "0010111001")
+        assert.equal(bitmask.toBigInt(), 185n)
+        assert.equal(bitmask.bits, 185n)
+      });
+
+      it('creates the bitmask string based on the space and elements (sorted)', function() {
+        let bitmask = small_ordered_space.bitmask(_.shuffle([1,2,3,4,5])) // Test shuffling it
+
+        // String should follow the space order
+        assert.equal(bitmask.toString(), "0111110000")
+        assert.equal(bitmask.toBigInt(), 496n)
+        assert.equal(bitmask.bits, 496n)
+      });
+
+      it('creates the bitmask representations when constructed from bits/bigint, elements not present, until computed', function() {
+        let bitmask = small_ordered_space.bitmask(496n) // Test shuffling it
+
+        // String should follow the space order
+        assert.equal(bitmask.toString(), "0111110000")
+        assert.equal(bitmask.toBigInt(), 496n)
+        assert.equal(bitmask.bits, 496n)
+        assert.equal(bitmask.elements, undefined)
+        bitmask.compute_elements()
+        assert(bitmask.elements.every(function(element){ return [1,2,3,4,5].includes(element)}))
+      });
+
     });
 
-    it('creates the bitmask string based on the space and elements (sorted)', function() {
-      let bitmask = small_ordered_space.bitmask(_.shuffle([1,2,3,4,5])) // Test shuffling it
+    //////////////////////////////////////////////////////////////////////////////
+    // Operations
+    //////////////////////////////////////////////////////////////////////////////
+    describe('Operations', function() {
 
-      // String should follow the space order
-      assert.equal(bitmask.toString(), "0111110000")
-      assert.equal(bitmask.toBigInt(), 496n)
-      assert.equal(bitmask.bits, 496n)
+      it('succesfully operates with `and`', function() {
+        let bitmask_a = small_ordered_space.bitmask([2,4])
+        let bitmask_b = small_ordered_space.bitmask([1,2,3,4,5])
+
+      });
+
+      it('creates the bitmask string based on the space and elements', function() {
+        let bitmask = small_ordered_space.bitmask(_.shuffle([1,2,3,4,5])) // Test shuffling it
+
+        // String should follow the space order
+        assert.equal(bitmask.toString(), "0111110000")
+        assert.equal(bitmask.toBigInt(), 496n)
+        assert.equal(bitmask.bits, 496n)
+      });
     });
+
+    //////////////////////////////////////////////////////////////////////////////
+    // Utils
+    //////////////////////////////////////////////////////////////////////////////
+    // describe('Utils', function() {
+    //   describe('#bits_to_elements', function() {
+    //     it('computes the elements from the space using the bits representation', function() {
+    //       // TODO: test!
+    //     });
+    //   });
+    // });
   });
-
-  //////////////////////////////////////////////////////////////////////////////
-  // Operations
-  //////////////////////////////////////////////////////////////////////////////
-
-  describe('Operations', function() {
-
-    var small_random_space;
-    var small_ordered_space;
-
-    before(function(done){
-        let elements = [0,8,1,9,3,2,4,6,7,5]
-        small_random_space = new BitmaskSpace(elements)
-        small_ordered_space = new BitmaskSpace(elements, {'sort': true})
-        done();
-    });
-    it('succesfully operates with `and`', function() {
-      let bitmask_a = small_ordered_space.bitmask([2,4])
-      let bitmask_b = small_ordered_space.bitmask([1,2,3,4,5])
-
-    });
-
-    it('creates the bitmask string based on the space and elements', function() {
-      let bitmask = small_ordered_space.bitmask(_.shuffle([1,2,3,4,5])) // Test shuffling it
-
-      // String should follow the space order
-      assert.equal(bitmask.toString(), "0111110000")
-      assert.equal(bitmask.toBigInt(), 496n)
-      assert.equal(bitmask.bits, 496n)
-    });
-  });
-
 });
