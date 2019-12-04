@@ -33,6 +33,7 @@ describe('Bitmask', function() {
       // String should follow the space order
       assert.equal(bitmask.toString(),"0010111001")
       assert.equal(bitmask.toBigInt(),185n)
+      assert.equal(bitmask.bits(),185n)
     });
 
     it('creates the bitmask string based on the space and elements', function() {
@@ -41,6 +42,7 @@ describe('Bitmask', function() {
       // String should follow the space order
       assert.equal(bitmask.toString(),"0111110000")
       assert.equal(bitmask.toBigInt(),496n)
+      assert.equal(bitmask.bits(),496n)
     });
   });
 
