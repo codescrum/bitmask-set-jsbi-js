@@ -69,12 +69,6 @@ describe('Bitmask', function() {
       let bitmask_a = small_ordered_space.bitmask([2,4])
       let bitmask_b = small_ordered_space.bitmask([1,2,3,4,5])
 
-
-
-      // String should follow the space order
-      assert.equal(bitmask.toString(), "0010111001")
-      assert.equal(bitmask.toBigInt(), 185n)
-      assert.equal(bitmask.bits, 185n)
     });
 
     it('creates the bitmask string based on the space and elements', function() {
