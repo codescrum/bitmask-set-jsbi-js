@@ -86,15 +86,5 @@ describe('Bitmask', function() {
       });
     });
 
-    //////////////////////////////////////////////////////////////////////////////
-    // Utils
-    //////////////////////////////////////////////////////////////////////////////
-    // describe('Utils', function() {
-    //   describe('#bits_to_elements', function() {
-    //     it('computes the elements from the space using the bits representation', function() {
-    //       // TODO: test!
-    //     });
-    //   });
-    // });
   });
 });
