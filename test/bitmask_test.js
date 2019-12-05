@@ -109,6 +109,17 @@ describe('Bitmask', function() {
         assert.equal(bitmask.toString(), "0111111001")
       });
 
+      it('succesfully operates with `xor`', function() {
+        let bitmask_a = small_ordered_space.bitmask([2,4,5,6,9])
+        let bitmask_b = small_ordered_space.bitmask([1,2,3,4,5])
+
+        let result = bitmask_a.xor(bitmask_b)
+
+        let bitmask = small_ordered_space.bitmask(result)
+        assert.equal(result, 329n)
+        assert.equal(bitmask.toString(), "0101001001")
+      });
+
     });
 
   });
