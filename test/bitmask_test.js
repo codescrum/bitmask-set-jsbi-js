@@ -90,11 +90,9 @@ describe('Bitmask', function() {
         let bitmask_a = small_ordered_space.bitmask([2,4,5,6,9])
         let bitmask_b = small_ordered_space.bitmask([1,2,3,4,5])
 
-        let result = bitmask_a.and(bitmask_b)
+        let bitmask = bitmask_a.and(bitmask_b)
 
-        let bitmask = small_ordered_space.bitmask(result)
-
-        assert.equal(result, 176n)
+        assert.equal(bitmask.bits, 176n)
         assert.equal(bitmask.toString(), "0010110000")
       });
 
@@ -102,10 +100,9 @@ describe('Bitmask', function() {
         let bitmask_a = small_ordered_space.bitmask([2,4,5,6,9])
         let bitmask_b = small_ordered_space.bitmask([1,2,3,4,5])
 
-        let result = bitmask_a.or(bitmask_b)
+        let bitmask = bitmask_a.or(bitmask_b)
 
-        let bitmask = small_ordered_space.bitmask(result)
-        assert.equal(result, 505n)
+        assert.equal(bitmask.bits, 505n)
         assert.equal(bitmask.toString(), "0111111001")
       });
 
@@ -113,10 +110,9 @@ describe('Bitmask', function() {
         let bitmask_a = small_ordered_space.bitmask([2,4,5,6,9])
         let bitmask_b = small_ordered_space.bitmask([1,2,3,4,5])
 
-        let result = bitmask_a.xor(bitmask_b)
+        let bitmask = bitmask_a.xor(bitmask_b)
 
-        let bitmask = small_ordered_space.bitmask(result)
-        assert.equal(result, 329n)
+        assert.equal(bitmask.bits, 329n)
         assert.equal(bitmask.toString(), "0101001001")
       });
 
