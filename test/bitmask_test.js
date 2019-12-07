@@ -116,6 +116,15 @@ describe('Bitmask', function() {
         assert.equal(bitmask.toString(), "0101001001")
       });
 
+      it('succesfully inverts the bitmask', function() {
+        let normal_bitmask = small_ordered_space.bitmask([2,4,5,6,9])
+        let bitmask = normal_bitmask.invert()
+
+        assert.equal(normal_bitmask.toString(),   "0010111001")
+        assert.equal(bitmask.toString(), "1101000110")
+        assert.equal(bitmask.bits, 838n)
+      });
+
     });
 
   });
