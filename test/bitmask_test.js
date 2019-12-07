@@ -1,4 +1,5 @@
 var assert = require('assert');
+var JSBI = require('jsbi')
 const { BitmaskSpace, Bitmask } = require('../lib/index')
 
 describe('Bitmask', function() {
@@ -54,8 +55,8 @@ describe('Bitmask', function() {
 
         // String should follow the space order
         assert.equal(bitmask.toString(), "0001011101")
-        assert.equal(bitmask.toBigInt(), 93n)
-        assert.equal(bitmask.bits, 93n)
+        assert(JSBI.equal(bitmask.toBigInt(), JSBI.BigInt(93)))
+        assert(JSBI.equal(bitmask.bits, JSBI.BigInt(93)))
       });
 
       it('creates the bitmask string based on the space and elements (sorted)', function() {
@@ -63,17 +64,17 @@ describe('Bitmask', function() {
 
         // String should follow the space order
         assert.equal(bitmask.toString(), "0111110000")
-        assert.equal(bitmask.toBigInt(), 496n)
-        assert.equal(bitmask.bits, 496n)
+        assert(JSBI.equal(bitmask.toBigInt(), JSBI.BigInt(496)))
+        assert(JSBI.equal(bitmask.bits, JSBI.BigInt(496)))
       });
 
       it('creates the bitmask representations when constructed from bits/bigint, elements not present, until computed', function() {
-        let bitmask = small_ordered_space.bitmask(496n) // Test shuffling it
+        let bitmask = small_ordered_space.bitmask(JSBI.BigInt(496)) // Test shuffling it
 
         // String should follow the space order
         assert.equal(bitmask.toString(), "0111110000")
-        assert.equal(bitmask.toBigInt(), 496n)
-        assert.equal(bitmask.bits, 496n)
+        assert(JSBI.equal(bitmask.toBigInt(), JSBI.BigInt(496)))
+        assert(JSBI.equal(bitmask.bits, JSBI.BigInt(496)))
         assert.equal(bitmask.elements, undefined)
         bitmask.compute_elements()
         assert(bitmask.elements.every(function(element){ return [1,2,3,4,5].includes(element)}))
@@ -92,7 +93,7 @@ describe('Bitmask', function() {
 
         let bitmask = bitmask_a.and(bitmask_b)
 
-        assert.equal(bitmask.bits, 176n)
+        assert(JSBI.equal(bitmask.bits, JSBI.BigInt(176)))
         assert.equal(bitmask.toString(), "0010110000")
       });
 
@@ -102,7 +103,7 @@ describe('Bitmask', function() {
 
         let bitmask = bitmask_a.or(bitmask_b)
 
-        assert.equal(bitmask.bits, 505n)
+        assert(JSBI.equal(bitmask.bits, JSBI.BigInt(505)))
         assert.equal(bitmask.toString(), "0111111001")
       });
 
@@ -112,7 +113,7 @@ describe('Bitmask', function() {
 
         let bitmask = bitmask_a.xor(bitmask_b)
 
-        assert.equal(bitmask.bits, 329n)
+        assert(JSBI.equal(bitmask.bits, JSBI.BigInt(329)))
         assert.equal(bitmask.toString(), "0101001001")
       });
 
@@ -122,7 +123,7 @@ describe('Bitmask', function() {
 
         assert.equal(normal_bitmask.toString(),   "0010111001")
         assert.equal(bitmask.toString(), "1101000110")
-        assert.equal(bitmask.bits, 838n)
+        assert(JSBI.equal(bitmask.bits, JSBI.BigInt(838)))
       });
 
     });

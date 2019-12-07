@@ -1,6 +1,6 @@
 {
   "name": "bitmask_space",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Bitmask Space allows you to define a space of bitmasks, all of which represent",
   "main": "index.js",
   "directories": {
