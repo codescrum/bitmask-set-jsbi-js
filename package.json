@@ -1,11 +1,11 @@
 {
-  "name": "bitmask_field",
+  "name": "@codescrum/bitmask_field",
   "version": "1.0.0",
   "description": "Bitmask field allows you to define a field of bitmasks, all of which represent",
   "main": "index.js",
   "directories": {
     "lib": "lib",
-    "test": "tests"
+    "test": "test"
   },
   "dependencies": {
     "colors": "^1.4.0",
