@@ -24,8 +24,8 @@ function zeroPad(num, places) {
 // need to pad the output to the length of the all_elements array!
 function bitmap_to_string(all_elements, bitmap){
   unpadded_bitmap_string = bitmap.toString(2)
-  space_size = all_elements.length // Defining new concept here for later encapsulation
-  return _.padStart(unpadded_bitmap_string, space_size, '0')
+  field_size = all_elements.length // Defining new concept here for later encapsulation
+  return _.padStart(unpadded_bitmap_string, field_size, '0')
 }
 
 // search a given element in a bitmap
