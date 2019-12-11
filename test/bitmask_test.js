@@ -175,7 +175,7 @@ describe('Bitmask', function() {
         assert(JSBI.equal(bitmask.bits, JSBI.BigInt(838)))
       });
 
-      it('succesfully checks for inclusion of a bitmask inside another', function() {
+      it('succesfully checks for inclusion (#in) of a bitmask inside another', function() {
         let bitmask              = small_ordered_field.bitmask("0101000101")
         let included_bitmask     = small_ordered_field.bitmask("0101000100")
         let non_included_bitmask = small_ordered_field.bitmask("1101000000")
@@ -187,22 +187,54 @@ describe('Bitmask', function() {
         // assert(JSBI.equal(bitmask.bits, JSBI.BigInt(838)))
       });
 
-      it("succesfully checks for inclusion of a bitmask inside another (edge cases - all 1's)", function() {
-        let all_elements_bitmask = small_ordered_field.bitmask("1111111111")
-        let some_elements_bitmask     = small_ordered_field.bitmask("0101010101")
-        let no_elements_bitmask  = small_ordered_field.bitmask("0000000000")
+      it("succesfully checks for inclusion (#in) of a bitmask inside another (edge cases - all 1's)", function() {
+        let all_elements_bitmask  = small_ordered_field.bitmask("1111111111")
+        let some_elements_bitmask = small_ordered_field.bitmask("0101010101")
+        let no_elements_bitmask   = small_ordered_field.bitmask("0000000000")
 
+        assert(all_elements_bitmask.in(all_elements_bitmask)); // Everything IS included in everything
         assert(some_elements_bitmask.in(all_elements_bitmask));
         assert(no_elements_bitmask.in(all_elements_bitmask));
       });
 
-      it("succesfully checks for inclusion of a bitmask inside another (edge cases - all 0's)", function() {
+      it("succesfully checks for inclusion (#in) of a bitmask inside another (edge cases - all 0's)", function() {
         let all_elements_bitmask  = small_ordered_field.bitmask("1111111111")
         let some_elements_bitmask = small_ordered_field.bitmask("0101010101")
         let no_elements_bitmask   = small_ordered_field.bitmask("0000000000")
 
         assert(!all_elements_bitmask.in(no_elements_bitmask));
         assert(!some_elements_bitmask.in(no_elements_bitmask));
+        assert(no_elements_bitmask.in(no_elements_bitmask)); // Nothing IS included in nothing
+      });
+
+      it('succesfully checks for the non-inclusion (#not_in) of a bitmask inside another', function() {
+        let bitmask              = small_ordered_field.bitmask("1111100000")
+        let included_bitmask     = small_ordered_field.bitmask("0101100000")
+        let non_included_bitmask = small_ordered_field.bitmask("0000011111")
+
+        assert(non_included_bitmask.not_in(bitmask));
+        assert(!included_bitmask.not_in(bitmask));
+        // assert.equal(normal_bitmask.toString(),   "0010111001")
+        // assert.equal(bitmask.toString(), "1101000110")
+        // assert(JSBI.equal(bitmask.bits, JSBI.BigInt(838)))
+      });
+
+      it("succesfully for the non-inclusion (#not_in) of a bitmask inside another (edge cases - all 1's)", function() {
+        let all_elements_bitmask  = small_ordered_field.bitmask("1111111111")
+        let some_elements_bitmask = small_ordered_field.bitmask("0101010101")
+        let no_elements_bitmask   = small_ordered_field.bitmask("0000000000")
+
+        assert(!some_elements_bitmask.not_in(all_elements_bitmask));
+        assert(no_elements_bitmask.not_in(all_elements_bitmask));
+      });
+
+      it("succesfully for the non-inclusion (#not_in) of a bitmask inside another (edge cases - all 0's)", function() {
+        let all_elements_bitmask  = small_ordered_field.bitmask("1111111111")
+        let some_elements_bitmask = small_ordered_field.bitmask("0101010101")
+        let no_elements_bitmask   = small_ordered_field.bitmask("0000000000")
+
+        assert(all_elements_bitmask.not_in(no_elements_bitmask));
+        assert(some_elements_bitmask.not_in(no_elements_bitmask));
       });
 
     });
