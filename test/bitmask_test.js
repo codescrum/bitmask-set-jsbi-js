@@ -170,8 +170,8 @@ describe('Bitmask', function() {
         let normal_bitmask = small_ordered_field.bitmask([2,4,5,6,9])
         let bitmask = normal_bitmask.invert()
 
-        assert.equal(normal_bitmask.toString(),   "0010111001")
-        assert.equal(bitmask.toString(), "1101000110")
+        assert.equal(normal_bitmask.toString(), "0010111001")
+        assert.equal(bitmask.toString(),        "1101000110")
         assert(JSBI.equal(bitmask.bits, JSBI.BigInt(838)))
       });
 
@@ -188,23 +188,23 @@ describe('Bitmask', function() {
       });
 
       it("succesfully checks for inclusion (#in) of a bitmask inside another (edge cases - all 1's)", function() {
-        let all_elements_bitmask  = small_ordered_field.bitmask("1111111111")
-        let some_elements_bitmask = small_ordered_field.bitmask("0101010101")
-        let no_elements_bitmask   = small_ordered_field.bitmask("0000000000")
+        let all  = small_ordered_field.bitmask("1111111111")
+        let some = small_ordered_field.bitmask("0101010101")
+        let none = small_ordered_field.bitmask("0000000000")
 
-        assert(all_elements_bitmask.in(all_elements_bitmask)); // Everything IS included in everything
-        assert(some_elements_bitmask.in(all_elements_bitmask));
-        assert(no_elements_bitmask.in(all_elements_bitmask));
+        assert(all.in(all)); // Everything IS included in everything
+        assert(some.in(all));
+        assert(none.in(all));
       });
 
       it("succesfully checks for inclusion (#in) of a bitmask inside another (edge cases - all 0's)", function() {
-        let all_elements_bitmask  = small_ordered_field.bitmask("1111111111")
-        let some_elements_bitmask = small_ordered_field.bitmask("0101010101")
-        let no_elements_bitmask   = small_ordered_field.bitmask("0000000000")
+        let all  = small_ordered_field.bitmask("1111111111")
+        let some = small_ordered_field.bitmask("0101010101")
+        let none = small_ordered_field.bitmask("0000000000")
 
-        assert(!all_elements_bitmask.in(no_elements_bitmask));
-        assert(!some_elements_bitmask.in(no_elements_bitmask));
-        assert(no_elements_bitmask.in(no_elements_bitmask)); // Nothing IS included in nothing
+        assert(!all.in(none));
+        assert(!some.in(none));
+        assert(none.in(none)); // Nothing IS included in nothing
       });
 
       it('succesfully checks for the non-inclusion (#not_in) of a bitmask inside another', function() {
@@ -220,21 +220,22 @@ describe('Bitmask', function() {
       });
 
       it("succesfully for the non-inclusion (#not_in) of a bitmask inside another (edge cases - all 1's)", function() {
-        let all_elements_bitmask  = small_ordered_field.bitmask("1111111111")
-        let some_elements_bitmask = small_ordered_field.bitmask("0101010101")
-        let no_elements_bitmask   = small_ordered_field.bitmask("0000000000")
+        let all  = small_ordered_field.bitmask("1111111111")
+        let some = small_ordered_field.bitmask("0101010101")
+        let none = small_ordered_field.bitmask("0000000000")
 
-        assert(!some_elements_bitmask.not_in(all_elements_bitmask));
-        assert(no_elements_bitmask.not_in(all_elements_bitmask));
+        assert(!some.not_in(all));
+        assert(!none.not_in(all));
       });
 
       it("succesfully for the non-inclusion (#not_in) of a bitmask inside another (edge cases - all 0's)", function() {
-        let all_elements_bitmask  = small_ordered_field.bitmask("1111111111")
-        let some_elements_bitmask = small_ordered_field.bitmask("0101010101")
-        let no_elements_bitmask   = small_ordered_field.bitmask("0000000000")
+        let all  = small_ordered_field.bitmask("1111111111")
+        let some = small_ordered_field.bitmask("0101010101")
+        let none = small_ordered_field.bitmask("0000000000")
 
-        assert(all_elements_bitmask.not_in(no_elements_bitmask));
-        assert(some_elements_bitmask.not_in(no_elements_bitmask));
+        assert(all.not_in(none));
+        assert(some.not_in(none));
+        assert(!none.not_in(none)); // The empty set is contained in itself.
       });
 
     });
