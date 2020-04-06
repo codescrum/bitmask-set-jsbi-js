@@ -76,7 +76,6 @@ describe('BitmaskField', function() {
     });
   });
 
-  // S
   describe('#indexOf', function() {
     it('returns the index of the element in the field', function() {
       let bitmask_field = new BitmaskField([1,2,3])

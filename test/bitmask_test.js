@@ -72,7 +72,7 @@ describe('Bitmask', function() {
 
       // Now, compute the elements
       bitmask.compute_elements()
-      assert(bitmask.elements.every(function(element){ return [1,3,4,6,9].includes(element)}))
+      assert(_.difference(bitmask.elements, [1,3,4,6,9]).length == 0)
     });
 
     //////////////////////////////////////////////////////////////////////////////
@@ -126,7 +126,7 @@ describe('Bitmask', function() {
 
         // Now, compute the elements
         bitmask.compute_elements()
-        assert(bitmask.elements.every(function(element){ return [1,2,3,4,5].includes(element)}))
+        assert(_.difference(bitmask.elements, [1,2,3,4,5]).length == 0)
       });
 
     });
@@ -236,6 +236,30 @@ describe('Bitmask', function() {
         assert(all.not_in(none));
         assert(some.not_in(none));
         assert(!none.not_in(none)); // The empty set is contained in itself.
+      });
+
+      it("succesfully adds elements", function() {
+        let bitmask = small_ordered_field.bitmask("0011000100")
+        result = bitmask.add([0,2,9]);
+
+        assert.equal(result.toString(), "1011000101")
+        assert.equal(result.elements,undefined)
+
+        // Now, compute the elements
+        bitmask.compute_elements()
+        assert(_.difference(bitmask.elements, [0,2,3,7,9]).length == 0)
+      });
+
+      it("succesfully removes elements", function() {
+        let bitmask = small_ordered_field.bitmask("1011000101")
+        result = bitmask.remove([0,2,9]);
+
+        assert.equal(result.toString(), "0011000100")
+        assert.equal(result.elements,undefined)
+
+        // Now, compute the elements
+        bitmask.compute_elements()
+        // assert(_.difference(bitmask.elements, [2,3,7]).length == 0)
       });
 
     });
