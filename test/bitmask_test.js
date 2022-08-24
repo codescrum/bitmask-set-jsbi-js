@@ -68,9 +68,9 @@ describe('Bitmask', function() {
       let bitmask = small_ordered_field.bitmask("0101101001");
       assert.equal(bitmask.toString(), "0101101001");
       assert(JSBI.equal(bitmask.bits, JSBI.BigInt(361)))
-      assert.equal(bitmask.elements, undefined); // Elements not computed yet
+      assert.equal(bitmask.elements, undefined); // Elements not computed yet is ok
 
-      // Now, compute the elements
+      // Now, compute the elements ("applies" the changes)
       bitmask.compute_elements()
       assert(_.difference(bitmask.elements, [1,3,4,6,9]).length == 0)
     });
@@ -243,23 +243,24 @@ describe('Bitmask', function() {
         result = bitmask.add([0,2,9]);
 
         assert.equal(result.toString(), "1011000101")
-        assert.equal(result.elements,undefined)
+        assert.equal(result.elements, undefined)
 
         // Now, compute the elements
-        bitmask.compute_elements()
-        assert(_.difference(bitmask.elements, [0,2,3,7,9]).length == 0)
+        result.compute_elements()
+        assert(_.difference(result.elements, [0,2,3,7,9]).length == 0)
       });
 
       it("succesfully removes elements", function() {
         let bitmask = small_ordered_field.bitmask("1011000101")
         result = bitmask.remove([0,2,9]);
 
-        assert.equal(result.toString(), "0011000100")
-        assert.equal(result.elements,undefined)
+        assert.equal(result.toString(), "0001000100")
+        assert.equal(result.elements, undefined)
 
         // Now, compute the elements
-        bitmask.compute_elements()
-        // assert(_.difference(bitmask.elements, [2,3,7]).length == 0)
+        result.compute_elements()
+        debugger;
+        assert(_.difference(result.elements, [3,7]).length == 0)
       });
 
     });
