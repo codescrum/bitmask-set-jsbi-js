@@ -6,5 +6,9 @@ the selection of elements across an array of defined elements.
 By manipulating the bitmasks you can quickly optimize typical multiple-selection
 operations which would otherwise require many array iterations and accesses to perform.
 
-The bitmask field implemented here is a closed space in which all operations on
-bitmasks yield other bitmasks in the field.
+# Development
+
+1. Clone repo.
+2. ```npm install```
+3. ```npm test```
+
