@@ -259,7 +259,7 @@ describe('Bitmask', function() {
 
         // Now, compute the elements
         result.compute_elements()
-        debugger;
+        // debugger;
         assert(_.difference(result.elements, [3,7]).length == 0)
       });
 
