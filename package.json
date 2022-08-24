@@ -1,7 +1,7 @@
 {
   "name": "@codescrum/bitmask_field",
   "version": "1.0.0",
-  "description": "Bitmask field allows you to define a field of bitmasks, all of which represent",
+  "description": "Convert arrays to bitmaks to quickly operate in sets of elements through bitwise operations.",
   "main": "index.js",
   "directories": {
     "lib": "lib",
