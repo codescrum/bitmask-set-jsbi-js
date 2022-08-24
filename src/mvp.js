@@ -1,6 +1,5 @@
 var assert = require('assert');
 _ = require('lodash');
-var colors = require('colors');
 
 // Basic configuration (for testing)
 users_per_team            = 500     // Number of users per team
