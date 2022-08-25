@@ -47,3 +47,10 @@ See [https://mochajs.org/#-inspect-inspect-brk-inspect](https://mochajs.org/#-in
 
 
 *Note:* If the `mocha` command is not found, you might want to either install globally (npm install -g mocha) or add the specific `<project_root>/node_modules/.bin` to your $PATH.
+
+# Other, perhaps similar libraries
+
+1. https://www.npmjs.com/package/bm
+2. https://www.npmjs.com/package/gonfalon
+3. https://www.npmjs.com/package/big-bit-mask
+4. https://www.npmjs.com/package/easy-bits
