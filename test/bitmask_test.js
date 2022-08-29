@@ -216,9 +216,6 @@ describe('Bitmask', function() {
 
         assert(non_included_bitmask.not_in(bitmask));
         assert(!included_bitmask.not_in(bitmask));
-        // assert.equal(normal_bitmask.toString(),   "0010111001")
-        // assert.equal(bitmask.toString(), "1101000110")
-        // assert(JSBI.equal(bitmask.bits, JSBI.BigInt(838)))
       });
 
       it("succesfully for the non-inclusion (#not_in) of a bitmask inside another (edge cases - all 1's)", function() {
