@@ -1,5 +1,5 @@
 {
-  "name": "@codescrum/bitmask-set",
+  "name": "@codescrum/bitmask-field",
   "version": "0.0.1",
   "type": "module",
   "description": "Convert known-size sets to bitmask representations to quickly operate with it through bitwise operations.",
