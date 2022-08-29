@@ -1,5 +1,5 @@
-var assert = require('assert');
-const { BitmaskField, Bitmask } = require('../lib/index')
+import assert from 'assert';
+import { BitmaskField, Bitmask } from '../index.js';
 
 describe('BitmaskField', function() {
   describe('#constructor', function() {
@@ -40,6 +40,7 @@ describe('BitmaskField', function() {
 
     var small_random_field;
     var small_ordered_field;
+    var small_sorted_field;
 
     before(function(done){
         small_random_field =  new BitmaskField([0,8,1,9,3,2,4,6,7,5])

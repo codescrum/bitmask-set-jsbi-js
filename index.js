@@ -1,7 +1,5 @@
-const { BitmaskField } = require('./lib/bitmask_field');
-const { Bitmask } = require('./lib/bitmask');
+import { Bitmask } from './lib/bitmask.js';
+import { BitmaskField } from './lib/bitmask_field.js';
 
-module.exports = {
-  BitmaskField: BitmaskField,
-  Bitmask: Bitmask
-}
+export {BitmaskField};
+export {Bitmask};

@@ -1,7 +1,8 @@
 {
-  "name": "@codescrum/bitmask_field",
-  "version": "1.0.0",
-  "description": "Convert arrays to bitmaks to quickly operate in sets of elements through bitwise operations.",
+  "name": "@codescrum/bitmask-set",
+  "version": "0.0.1",
+  "type": "module",
+  "description": "Convert known-size sets to bitmask representations to quickly operate with it through bitwise operations.",
   "main": "index.js",
   "directories": {
     "lib": "lib",
@@ -12,6 +13,11 @@
     "lodash": "^4.17.21"
   },
   "devDependencies": {
+    "eslint": "^8.23.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-n": "^15.2.5",
+    "eslint-plugin-promise": "^6.0.1",
     "mocha": "^10.0.0"
   },
   "scripts": {
@@ -22,9 +28,12 @@
     "url": "git+ssh://git@bitbucket.org/codescrum/js-bitmask_field.git"
   },
   "keywords": [
+    "array optimization",
     "bitmask",
-    "bitmap",
-    "bitwise"
+    "bitwise",
+    "bitmask set",
+    "set intersect",
+    "set optimization"
   ],
   "author": "Miguel Diaz",
   "license": "MIT",

@@ -1,7 +1,8 @@
-var _ = require('lodash');
-var assert = require('assert');
-var JSBI = require('jsbi')
-const { BitmaskField, Bitmask } = require('../lib/index')
+'use strict';
+import assert from 'assert';
+import _  from 'lodash';
+import JSBI from 'jsbi';
+import { BitmaskField, Bitmask } from '../index.js';
 
 describe('Bitmask', function() {
 
@@ -241,7 +242,7 @@ describe('Bitmask', function() {
 
       it("succesfully adds elements", function() {
         let bitmask = small_ordered_field.bitmask("0011000100")
-        result = bitmask.add([0,2,9]);
+        let result = bitmask.add([0,2,9]);
 
         assert.equal(result.toString(), "1011000101")
         assert.equal(result.elements, undefined)
@@ -253,7 +254,7 @@ describe('Bitmask', function() {
 
       it("succesfully removes elements", function() {
         let bitmask = small_ordered_field.bitmask("1011000101")
-        result = bitmask.remove([0,2,9]);
+        let result = bitmask.remove([0,2,9]);
 
         assert.equal(result.toString(), "0001000100")
         assert.equal(result.elements, undefined)
