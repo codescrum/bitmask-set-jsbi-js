@@ -29,11 +29,13 @@
   },
   "keywords": [
     "array optimization",
+    "array intersection optimization",
     "bitmask",
     "bitwise",
     "bitmask set",
     "set intersect",
-    "set optimization"
+    "set optimization",
+    "set intersection"
   ],
   "author": "Miguel Diaz",
   "license": "MIT",
