@@ -1,6 +1,6 @@
-# Bitmask Field
+# Bitmask Set
 
-Bitmask Field allows you to define a closed field of bitmasks, all of which represent
+Bitmask Set allows you to define a closed set of bitmasks, all of which represent
 the selection of elements across an array of defined elements.
 
 By manipulating the bitmasks you can quickly optimize typical multiple-selection
@@ -8,8 +8,8 @@ operations which would otherwise require many array iterations and accesses to p
 
 # Basic operation
 
-Given an existing array of predefined values which we call the `field`, it converts any other array consisting of a subset of such values into a `bitmask` with every bit corresponding to whether
-the value is present or not in the `field`.
+Given an existing array of predefined values which we call the `set`, it converts any other array consisting of a subset of such values into a `bitmask` with every bit corresponding to whether
+the value is present or not in the `set`.
 
 Once you have one or more arrays represented in this way, you can operate with the bitmasks to perform
 quick comparisons of whether sets of elements match or not (using bitwise AND/OR/XOR, etc.).

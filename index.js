@@ -1,5 +1,5 @@
 import { Bitmask } from './lib/bitmask.js'
-import { BitmaskField } from './lib/bitmask_field.js'
+import { BitmaskSet } from './lib/bitmask_set.js'
 
-export { BitmaskField }
+export { BitmaskSet }
 export { Bitmask }

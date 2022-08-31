@@ -1,5 +1,5 @@
 {
-  "name": "@codescrum/bitmask-field",
+  "name": "@codescrum/bitmask-set",
   "version": "0.0.1",
   "type": "module",
   "description": "Convert known-size sets to bitmask representations to quickly operate with it through bitwise operations.",
@@ -25,7 +25,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@bitbucket.org/codescrum/js-bitmask_field.git"
+    "url": "git+ssh://git@bitbucket.org/codescrum/js-bitmask_set.git"
   },
   "keywords": [
     "array optimization",
@@ -39,5 +39,5 @@
   ],
   "author": "Miguel Diaz",
   "license": "MIT",
-  "homepage": "https://bitbucket.org/codescrum/js-bitmask_field#readme"
+  "homepage": "https://bitbucket.org/codescrum/js-bitmask_set#readme"
 }
