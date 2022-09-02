@@ -68,11 +68,11 @@ describe('Bitmask', function () {
       const bitmask = small_ordered_set.bitmask('0101101001')
       assert.equal(bitmask.toString(), '0101101001')
       assert(JSBI.equal(bitmask.bits, JSBI.BigInt(361)))
-      assert.equal(bitmask.elements, undefined) // Elements not computed yet is ok
+      assert.equal(bitmask.elements(), undefined) // Elements not computed yet is ok
 
       // Now, compute the elements ("applies" the changes)
       bitmask.compute_elements()
-      assert(_.difference(bitmask.elements, [1, 3, 4, 6, 9]).length == 0)
+      assert(_.difference(bitmask.elements(), [1, 3, 4, 6, 9]).length == 0)
     })
 
     /// ///////////////////////////////////////////////////////////////////////////
@@ -120,11 +120,11 @@ describe('Bitmask', function () {
         assert.equal(bitmask.toString(), '0111110000')
         assert(JSBI.equal(bitmask.toBigInt(), JSBI.BigInt(496)))
         assert(JSBI.equal(bitmask.bits, JSBI.BigInt(496)))
-        assert.equal(bitmask.elements, undefined)
+        assert.equal(bitmask.elements(), undefined)
 
         // Now, compute the elements
         bitmask.compute_elements()
-        assert(_.difference(bitmask.elements, [1, 2, 3, 4, 5]).length == 0)
+        assert(_.difference(bitmask.elements(), [1, 2, 3, 4, 5]).length == 0)
       })
     })
 
@@ -228,19 +228,20 @@ describe('Bitmask', function () {
 
         assert(all.not_in(none))
         assert(some.not_in(none))
-        assert(!none.not_in(none)) // The empty set is contained in itself.
+        assert(!none.not_in(none)) // The empty set is contained in itself (serves as "0 equality").
       })
 
       it('succesfully adds elements', function () {
         const bitmask = small_ordered_set.bitmask('0011000100')
         const result = bitmask.add([0, 2, 9])
 
+        // Operate in bitmasks domain
         assert.equal(result.toString(), '1011000101')
-        assert.equal(result.elements, undefined)
+        assert.equal(result.elements(), undefined)
 
-        // Now, compute the elements
+        // When we are done with that, we finally compute the elements
         result.compute_elements()
-        assert(_.difference(result.elements, [0, 2, 3, 7, 9]).length == 0)
+        assert(_.difference(result.elements(), [0, 2, 3, 7, 9]).length == 0)
       })
 
       it('succesfully removes elements', function () {
@@ -248,12 +249,12 @@ describe('Bitmask', function () {
         const result = bitmask.remove([0, 2, 9])
 
         assert.equal(result.toString(), '0001000100')
-        assert.equal(result.elements, undefined)
+        assert.equal(result.elements(), undefined)
 
         // Now, compute the elements
         result.compute_elements()
         // debugger;
-        assert(_.difference(result.elements, [3, 7]).length == 0)
+        assert(_.difference(result.elements(), [3, 7]).length == 0)
       })
     })
   })
