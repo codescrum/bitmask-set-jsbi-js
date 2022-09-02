@@ -68,7 +68,7 @@ describe('Bitmask', function () {
       const bitmask = small_ordered_set.bitmask('0101101001')
       assert.equal(bitmask.toString(), '0101101001')
       assert(JSBI.equal(bitmask.bits, JSBI.BigInt(361)))
-      assert.equal(bitmask.elements(), undefined) // Elements not computed yet is ok
+      assert.equal(bitmask._elements, undefined) // Elements not computed yet is ok
 
       // Now, compute the elements ("applies" the changes)
       bitmask.compute_elements()
@@ -120,7 +120,7 @@ describe('Bitmask', function () {
         assert.equal(bitmask.toString(), '0111110000')
         assert(JSBI.equal(bitmask.toBigInt(), JSBI.BigInt(496)))
         assert(JSBI.equal(bitmask.bits, JSBI.BigInt(496)))
-        assert.equal(bitmask.elements(), undefined)
+        assert.equal(bitmask._elements, undefined)
 
         // Now, compute the elements
         bitmask.compute_elements()
@@ -237,7 +237,7 @@ describe('Bitmask', function () {
 
         // Operate in bitmasks domain
         assert.equal(result.toString(), '1011000101')
-        assert.equal(result.elements(), undefined)
+        assert.equal(result._elements, undefined)
 
         // When we are done with that, we finally compute the elements
         result.compute_elements()
@@ -249,7 +249,7 @@ describe('Bitmask', function () {
         const result = bitmask.remove([0, 2, 9])
 
         assert.equal(result.toString(), '0001000100')
-        assert.equal(result.elements(), undefined)
+        assert.equal(result._elements, undefined)
 
         // Now, compute the elements
         result.compute_elements()
