@@ -72,6 +72,9 @@ describe('Bitmask', function () {
 
       // Now, compute the elements ("applies" the changes)
       bitmask.compute_elements()
+      // debugger;
+      assert.notEqual(bitmask.elements(), undefined)
+      assert.notEqual(bitmask.elements(), [])
       assert(_.difference(bitmask.elements(), [1, 3, 4, 6, 9]).length == 0)
     })
 
@@ -124,6 +127,8 @@ describe('Bitmask', function () {
 
         // Now, compute the elements
         bitmask.compute_elements()
+        assert.notEqual(bitmask.elements(), undefined)
+        assert.notEqual(bitmask.elements(), [])
         assert(_.difference(bitmask.elements(), [1, 2, 3, 4, 5]).length == 0)
       })
     })
@@ -241,6 +246,9 @@ describe('Bitmask', function () {
 
         // When we are done with that, we finally compute the elements
         result.compute_elements()
+        // debugger;
+        assert.notEqual(result.elements(), undefined)
+        assert.notEqual(result.elements(), [])
         assert(_.difference(result.elements(), [0, 2, 3, 7, 9]).length == 0)
       })
 
@@ -253,7 +261,9 @@ describe('Bitmask', function () {
 
         // Now, compute the elements
         result.compute_elements()
-        // debugger;
+        debugger;
+        assert.notEqual(result.elements(), undefined)
+        assert.notEqual(result.elements(), [])
         assert(_.difference(result.elements(), [3, 7]).length == 0)
       })
     })
