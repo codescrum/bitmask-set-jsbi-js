@@ -94,6 +94,7 @@ describe('Bitmask', function () {
         assert.equal(ordered_bitmask.indexOf(6), 6)
       })
     })
+
     //////////////////////////////////////////////////////////////////////////////
     // Representations
     //////////////////////////////////////////////////////////////////////////////
@@ -267,5 +268,37 @@ describe('Bitmask', function () {
         assert(_.difference(result.elements(), [3, 7]).length == 0)
       })
     })
+    
+    //////////////////////////////////////////////////////////////////////////////
+    // Operators*
+    //////////////////////////////////////////////////////////////////////////////
+    describe('Operators*', function () {
+      it('compares with equals()', function () {
+        const bitmask_a = small_random_set.bitmask(_.shuffle([9, 2, 4, 6, 5])) // Test shuffling
+        const bitmask_b = small_random_set.bitmask(_.shuffle([9, 2, 4, 6, 5])) // Test shuffling
+        const bitmask_c = small_random_set.bitmask([9, 2, 4, 6, 5])
+        const bitmask_d = small_random_set.bitmask([5, 9, 6, 2, 4])
+
+        assert(bitmask_a.equals(bitmask_b))
+        assert(bitmask_a.equals(bitmask_c))
+        assert(bitmask_a.equals(bitmask_d))
+        assert(bitmask_c.equals(bitmask_d))
+      })
+
+      it('works with unitary plus ("+") (+bitmask) and valueOf()', function () { // Although valueOf() implementation not required
+        const bitmask = small_random_set.bitmask([9, 2, 4, 6, 5])
+
+        assert.equal(+bitmask, '0001011101')
+        assert.equal(bitmask.valueOf(), '0001011101')
+      })
+
+      it('can be compared directly with string', function () { // Although valueOf() implementation not required
+        const bitmask = small_random_set.bitmask([9, 2, 4, 6, 5])
+
+        assert(bitmask == '0001011101')
+        assert(bitmask, '0001011101')
+      })
+    })
+
   })
 })
