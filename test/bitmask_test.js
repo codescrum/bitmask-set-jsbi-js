@@ -322,6 +322,74 @@ describe('Bitmask', function () {
         assert(bitmask, '0001011101')
       })
     })
+    //////////////////////////////////////////////////////////////////////////////
+    // README Examples
+    //////////////////////////////////////////////////////////////////////////////    
+    describe('README Examples', function () {
+      it('runs the examples in the README', function () {
+        
+        function log(...params){
+          // console.log(...params) // noop for these tests
+        }
+        // First, we define the set of elements which we will work with.
+
+        let set = new BitmaskSet([1,2,3,4,5,6,7,8,9])
+
+        // Then we define the bitmasks
+        // Either by their elements, or, as strings of 1's and 0's)
+
+        let a = set.bitmask([1,3,5,7,9]) // let a = set.bitmask("101010101")
+        let b = set.bitmask([2,4,6,8])   // let b = set.bitmask("010101010")
+        let c = set.bitmask([1,3,5])     // let c = set.bitmask("101010000")
+        let d = set.bitmask([6,8])       // let d = set.bitmask("000001010")
+        let e = set.bitmask([1,2,3,4,5]) // let e = set.bitmask("111110000")
+        let f = set.bitmask([6,7,8,9])   // let e = set.bitmask("000001111")
+        let g = set.bitmask([1,9])       // let g = set.bitmask("100000001")
+
+        // For ease of visualization we defined the elements in order when
+        // creating the bitmasks, but you can pass the elements in any order.
+
+        // Print their string representations
+        log("a: " + a) // 101010101
+        log("b: " + b) // 010101010
+        log("c: " + c) // 101010000
+        log("d: " + d) // 000001010
+        log("e: " + e) // 111110000
+        log("f: " + f) // 000001111
+        log("g: " + g) // 100000001
+
+        // Some examples
+        log("a == '101010101': ", (a == '101010101'))       // true
+        log("a.invert().equals(b): ", a.invert().equals(b)) // true
+
+        log(`${a}.is_in(${b}): `, a.is_in(b)) // false
+        log(`${a}.is_in(${c}): `, a.is_in(c)) // false
+        log(`${c}.is_in(${a}): `, c.is_in(a)) // true
+        log(`${d}.is_in(${f}): `, d.is_in(f)) // true
+        log(`${g}.is_in(${a}): `, g.is_in(a)) // true
+        log(`${g}.is_in(${b}): `, g.is_in(b)) // false
+
+        log("a.and(b): " + a.and(b))    // 000000000
+        log("a.or(b): " + a.or(b))      // 111111111
+        log("a.xor(e): " + a.xor(e))    // 010100101
+
+        // Then, a given selection of items can be expressed as follows:
+
+        let result = a             // Take all elements from `a`
+                      .distinct(b) // mutually excluding those from `b`
+                      .and(e)      // that are also in `e`
+                      .add(f)      // then add the ones in `f`
+                      .remove(g)   // then remove those in `g`
+                      .invert()    // invert the current selection
+                      
+        log("result: " + result) // 100000001
+
+        // After manipulations, compute final resulting elements.
+        // Elements get computed when you first call `elements()`
+        // in your resulting bitmask:
+        log(result.elements()) // [ 1, 9 ]
+      })
+    })
 
   })
 })
