@@ -72,7 +72,7 @@ describe('Bitmask', function () {
 
       // Now, compute the elements ("applies" the changes)
       bitmask.compute_elements()
-      // debugger;
+
       assert.notEqual(bitmask.elements(), undefined)
       assert.notEqual(bitmask.elements(), [])
       assert(_.difference(bitmask.elements(), [1, 3, 4, 6, 9]).length == 0)
@@ -138,7 +138,7 @@ describe('Bitmask', function () {
     // Operations
     //////////////////////////////////////////////////////////////////////////////
     describe('Operations', function () {
-      it('succesfully operates with `and`', function () {
+      it('#and - operates with `and`', function () {
         const bitmask_a = small_ordered_set.bitmask([2, 4, 5, 6, 9])
         const bitmask_b = small_ordered_set.bitmask([1, 2, 3, 4, 5])
 
@@ -148,7 +148,7 @@ describe('Bitmask', function () {
         assert.equal(bitmask.toString(), '0010110000')
       })
 
-      it('succesfully operates with `or`', function () {
+      it('#or - operates with `or`', function () {
         const bitmask_a = small_ordered_set.bitmask([2, 4, 5, 6, 9])
         const bitmask_b = small_ordered_set.bitmask([1, 2, 3, 4, 5])
 
@@ -158,7 +158,7 @@ describe('Bitmask', function () {
         assert.equal(bitmask.toString(), '0111111001')
       })
 
-      it('succesfully operates with `xor`', function () {
+      it('#xor - operates with `xor`', function () {
         const bitmask_a = small_ordered_set.bitmask([2, 4, 5, 6, 9])
         const bitmask_b = small_ordered_set.bitmask([1, 2, 3, 4, 5])
 
@@ -168,7 +168,7 @@ describe('Bitmask', function () {
         assert.equal(bitmask.toString(), '0101001001')
       })
 
-      it('succesfully inverts the bitmask', function () {
+      it("#invert - inverts the bitmask (flips 1's and 0's)", function () {
         const normal_bitmask = small_ordered_set.bitmask([2, 4, 5, 6, 9])
         const bitmask = normal_bitmask.invert()
 
@@ -177,7 +177,7 @@ describe('Bitmask', function () {
         assert(JSBI.equal(bitmask.bits, JSBI.BigInt(838)))
       })
 
-      it('succesfully checks for inclusion (#in) of a bitmask inside another', function () {
+      it('#in - checks for inclusion of a bitmask inside another', function () {
         const bitmask = small_ordered_set.bitmask('0101000101')
         const included_bitmask = small_ordered_set.bitmask('0101000100')
         const non_included_bitmask = small_ordered_set.bitmask('1101000000')
@@ -189,7 +189,7 @@ describe('Bitmask', function () {
         // assert(JSBI.equal(bitmask.bits, JSBI.BigInt(838)))
       })
 
-      it("succesfully checks for inclusion (#in) of a bitmask inside another (edge cases - all 1's)", function () {
+      it("#in - checks for inclusion of a bitmask inside another (edge case - all 1's)", function () {
         const all = small_ordered_set.bitmask('1111111111')
         const some = small_ordered_set.bitmask('0101010101')
         const none = small_ordered_set.bitmask('0000000000')
@@ -199,7 +199,7 @@ describe('Bitmask', function () {
         assert(none.in(all))
       })
 
-      it("succesfully checks for inclusion (#in) of a bitmask inside another (edge cases - all 0's)", function () {
+      it("#in - checks for inclusion of a bitmask inside another (edge case - all 0's)", function () {
         const all = small_ordered_set.bitmask('1111111111')
         const some = small_ordered_set.bitmask('0101010101')
         const none = small_ordered_set.bitmask('0000000000')
@@ -209,7 +209,7 @@ describe('Bitmask', function () {
         assert(none.in(none)) // Nothing IS included in nothing
       })
 
-      it('succesfully checks for the non-inclusion (#not_in) of a bitmask inside another', function () {
+      it('#not_in - checks for the non-inclusion of a bitmask inside another', function () {
         const bitmask = small_ordered_set.bitmask('1111100000')
         const included_bitmask = small_ordered_set.bitmask('0101100000')
         const non_included_bitmask = small_ordered_set.bitmask('0000011111')
@@ -218,7 +218,7 @@ describe('Bitmask', function () {
         assert(!included_bitmask.not_in(bitmask))
       })
 
-      it("succesfully for the non-inclusion (#not_in) of a bitmask inside another (edge cases - all 1's)", function () {
+      it("#not_in - checks for the non-inclusion of a bitmask inside another (edge case - all 1's)", function () {
         const all = small_ordered_set.bitmask('1111111111')
         const some = small_ordered_set.bitmask('0101010101')
         const none = small_ordered_set.bitmask('0000000000')
@@ -227,7 +227,7 @@ describe('Bitmask', function () {
         assert(!none.not_in(all))
       })
 
-      it("succesfully for the non-inclusion (#not_in) of a bitmask inside another (edge cases - all 0's)", function () {
+      it("#not_in - checks for the non-inclusion of a bitmask inside another (edge case - all 0's)", function () {
         const all = small_ordered_set.bitmask('1111111111')
         const some = small_ordered_set.bitmask('0101010101')
         const none = small_ordered_set.bitmask('0000000000')
@@ -237,7 +237,7 @@ describe('Bitmask', function () {
         assert(!none.not_in(none)) // The empty set is contained in itself (serves as "0 equality").
       })
 
-      it('succesfully adds elements', function () {
+      it('#add - adds elements if argument is an array of elements', function () {
         const bitmask = small_ordered_set.bitmask('0011000100')
         const result = bitmask.add([0, 2, 9])
 
@@ -247,13 +247,30 @@ describe('Bitmask', function () {
 
         // When we are done with that, we finally compute the elements
         result.compute_elements()
-        // debugger;
+
         assert.notEqual(result.elements(), undefined)
         assert.notEqual(result.elements(), [])
         assert(_.difference(result.elements(), [0, 2, 3, 7, 9]).length == 0)
       })
 
-      it('succesfully removes elements', function () {
+      it('#add - adds elements if argument is another bitmask', function () {
+        const bitmask   = small_ordered_set.bitmask('0011000100')
+        const bitmask_a = small_ordered_set.bitmask('1010000101')
+        const result = bitmask.add(bitmask_a)
+        
+        // Operate in bitmasks domain
+        assert.equal(result.toString(), '1011000101')
+        assert.equal(result._elements, undefined)
+        
+        // When we are done with that, we finally compute the elements
+        result.compute_elements()
+
+        assert.notEqual(result.elements(), undefined)
+        assert.notEqual(result.elements(), [])
+        assert(_.difference(result.elements(), [0, 2, 3, 7, 9]).length == 0)
+      })
+
+      it('#remove - removes elements if argument is an array of elements', function () {
         const bitmask = small_ordered_set.bitmask('1011000101')
         const result = bitmask.remove([0, 2, 9])
 
@@ -262,11 +279,29 @@ describe('Bitmask', function () {
 
         // Now, compute the elements
         result.compute_elements()
-        debugger;
+
         assert.notEqual(result.elements(), undefined)
         assert.notEqual(result.elements(), [])
         assert(_.difference(result.elements(), [3, 7]).length == 0)
       })
+
+      it('#remove - removes elements if argument is another bitmask', function () {
+        const bitmask   = small_ordered_set.bitmask('0011000100')
+        const bitmask_a = small_ordered_set.bitmask('1010000101')
+        const result = bitmask.remove(bitmask_a)
+        
+        // Operate in bitmasks domain
+        assert.equal(result.toString(), '0001000000')
+        assert.equal(result._elements, undefined)
+        
+        // When we are done with that, we finally compute the elements
+        result.compute_elements()
+
+        assert.notEqual(result.elements(), undefined)
+        assert.notEqual(result.elements(), [])
+        assert(_.difference(result.elements(), [3]).length == 0)
+      })
+
     })
     
     //////////////////////////////////////////////////////////////////////////////
