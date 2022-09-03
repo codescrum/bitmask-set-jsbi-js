@@ -80,7 +80,7 @@ describe('Bitmask', function () {
     // Querying
     //////////////////////////////////////////////////////////////////////////////
     describe('Querying', function () {
-      it('#indexOf', function () {
+      it('#is_indexOf', function () {
         const random_bitmask = small_random_set.bitmask(_.shuffle([9, 2, 4, 6, 5])) // Test shuffling it
         const ordered_bitmask = small_ordered_set.bitmask(_.shuffle([9, 2, 4, 6, 5])) // Test shuffling it
 
@@ -165,7 +165,7 @@ describe('Bitmask', function () {
         assert.equal(bitmask.toString(), '0101001001')
       })
 
-      it("#invert - inverts the bitmask (flips 1's and 0's)", function () {
+      it("#is_invert - inverts the bitmask (flips 1's and 0's)", function () {
         const normal_bitmask = small_ordered_set.bitmask([2, 4, 5, 6, 9])
         const bitmask = normal_bitmask.invert()
 
@@ -174,64 +174,64 @@ describe('Bitmask', function () {
         assert(JSBI.equal(bitmask.bits, JSBI.BigInt(838)))
       })
 
-      it('#in - checks for inclusion of a bitmask inside another', function () {
+      it('#is_in - checks for inclusion of a bitmask inside another', function () {
         const bitmask = small_ordered_set.bitmask('0101000101')
         const included_bitmask = small_ordered_set.bitmask('0101000100')
         const non_included_bitmask = small_ordered_set.bitmask('1101000000')
 
-        assert(included_bitmask.in(bitmask))
-        assert(!non_included_bitmask.in(bitmask))
+        assert(included_bitmask.is_in(bitmask))
+        assert(!non_included_bitmask.is_in(bitmask))
         // assert.equal(normal_bitmask.toString(),   "0010111001")
         // assert.equal(bitmask.toString(), "1101000110")
         // assert(JSBI.equal(bitmask.bits, JSBI.BigInt(838)))
       })
 
-      it("#in - checks for inclusion of a bitmask inside another (edge case - all 1's)", function () {
+      it("#is_in - checks for inclusion of a bitmask inside another (edge case - all 1's)", function () {
         const all = small_ordered_set.bitmask('1111111111')
         const some = small_ordered_set.bitmask('0101010101')
         const none = small_ordered_set.bitmask('0000000000')
 
-        assert(all.in(all)) // Everything IS included in everything
-        assert(some.in(all))
-        assert(none.in(all))
+        assert(all.is_in(all)) // Everything IS included in everything
+        assert(some.is_in(all))
+        assert(none.is_in(all))
       })
 
-      it("#in - checks for inclusion of a bitmask inside another (edge case - all 0's)", function () {
+      it("#is_in - checks for inclusion of a bitmask inside another (edge case - all 0's)", function () {
         const all = small_ordered_set.bitmask('1111111111')
         const some = small_ordered_set.bitmask('0101010101')
         const none = small_ordered_set.bitmask('0000000000')
 
-        assert(!all.in(none))
-        assert(!some.in(none))
-        assert(none.in(none)) // Nothing IS included in nothing
+        assert(!all.is_in(none))
+        assert(!some.is_in(none))
+        assert(none.is_in(none)) // Nothing IS included in nothing
       })
 
-      it('#not_in - checks for the non-inclusion of a bitmask inside another', function () {
+      it('#is_not_in - checks for the non-inclusion of a bitmask inside another', function () {
         const bitmask = small_ordered_set.bitmask('1111100000')
         const included_bitmask = small_ordered_set.bitmask('0101100000')
         const non_included_bitmask = small_ordered_set.bitmask('0000011111')
 
-        assert(non_included_bitmask.not_in(bitmask))
-        assert(!included_bitmask.not_in(bitmask))
+        assert(non_included_bitmask.is_not_in(bitmask))
+        assert(!included_bitmask.is_not_in(bitmask))
       })
 
-      it("#not_in - checks for the non-inclusion of a bitmask inside another (edge case - all 1's)", function () {
+      it("#is_not_in - checks for the non-inclusion of a bitmask inside another (edge case - all 1's)", function () {
         const all = small_ordered_set.bitmask('1111111111')
         const some = small_ordered_set.bitmask('0101010101')
         const none = small_ordered_set.bitmask('0000000000')
 
-        assert(!some.not_in(all))
-        assert(!none.not_in(all))
+        assert(!some.is_not_in(all))
+        assert(!none.is_not_in(all))
       })
 
-      it("#not_in - checks for the non-inclusion of a bitmask inside another (edge case - all 0's)", function () {
+      it("#is_not_in - checks for the non-inclusion of a bitmask inside another (edge case - all 0's)", function () {
         const all = small_ordered_set.bitmask('1111111111')
         const some = small_ordered_set.bitmask('0101010101')
         const none = small_ordered_set.bitmask('0000000000')
 
-        assert(all.not_in(none))
-        assert(some.not_in(none))
-        assert(!none.not_in(none)) // The empty set is contained in itself (serves as "0 equality").
+        assert(all.is_not_in(none))
+        assert(some.is_not_in(none))
+        assert(!none.is_not_in(none)) // The empty set is contained in itself (serves as "0 equality").
       })
 
       it('#add - adds elements if argument is an array of elements', function () {
