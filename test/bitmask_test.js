@@ -165,7 +165,7 @@ describe('Bitmask', function () {
         assert.equal(bitmask.toString(), '0101001001')
       })
 
-      it("#is_invert - inverts the bitmask (flips 1's and 0's)", function () {
+      it("#invert - inverts the bitmask (flips 1's and 0's)", function () {
         const normal_bitmask = small_ordered_set.bitmask([2, 4, 5, 6, 9])
         const bitmask = normal_bitmask.invert()
 
