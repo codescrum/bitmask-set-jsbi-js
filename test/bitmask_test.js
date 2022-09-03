@@ -73,9 +73,7 @@ describe('Bitmask', function () {
       // Now, compute the elements ("applies" the changes)
       bitmask.compute_elements()
 
-      assert.notEqual(bitmask.elements(), undefined)
-      assert.notEqual(bitmask.elements(), [])
-      assert(_.difference(bitmask.elements(), [1, 3, 4, 6, 9]).length == 0)
+      assert.deepEqual(bitmask.elements(), [1, 3, 4, 6, 9])
     })
 
     //////////////////////////////////////////////////////////////////////////////
@@ -128,9 +126,8 @@ describe('Bitmask', function () {
 
         // Now, compute the elements
         bitmask.compute_elements()
-        assert.notEqual(bitmask.elements(), undefined)
-        assert.notEqual(bitmask.elements(), [])
-        assert(_.difference(bitmask.elements(), [1, 2, 3, 4, 5]).length == 0)
+
+        assert.deepEqual(bitmask.elements(), [1, 2, 3, 4, 5])
       })
     })
 
@@ -163,7 +160,7 @@ describe('Bitmask', function () {
         const bitmask_b = small_ordered_set.bitmask([1, 2, 3, 4, 5])
 
         const bitmask = bitmask_a.xor(bitmask_b)
-
+        
         assert(JSBI.equal(bitmask.bits, JSBI.BigInt(329)))
         assert.equal(bitmask.toString(), '0101001001')
       })
@@ -247,10 +244,7 @@ describe('Bitmask', function () {
 
         // When we are done with that, we finally compute the elements
         result.compute_elements()
-
-        assert.notEqual(result.elements(), undefined)
-        assert.notEqual(result.elements(), [])
-        assert(_.difference(result.elements(), [0, 2, 3, 7, 9]).length == 0)
+        assert.deepEqual(result.elements(), [0, 2, 3, 7, 9])
       })
 
       it('#add - adds elements if argument is another bitmask', function () {
@@ -265,9 +259,7 @@ describe('Bitmask', function () {
         // When we are done with that, we finally compute the elements
         result.compute_elements()
 
-        assert.notEqual(result.elements(), undefined)
-        assert.notEqual(result.elements(), [])
-        assert(_.difference(result.elements(), [0, 2, 3, 7, 9]).length == 0)
+        assert.deepEqual(result.elements(), [0, 2, 3, 7, 9])
       })
 
       it('#remove - removes elements if argument is an array of elements', function () {
@@ -280,9 +272,7 @@ describe('Bitmask', function () {
         // Now, compute the elements
         result.compute_elements()
 
-        assert.notEqual(result.elements(), undefined)
-        assert.notEqual(result.elements(), [])
-        assert(_.difference(result.elements(), [3, 7]).length == 0)
+        assert.deepEqual(result.elements(), [3, 7])
       })
 
       it('#remove - removes elements if argument is another bitmask', function () {
@@ -297,9 +287,7 @@ describe('Bitmask', function () {
         // When we are done with that, we finally compute the elements
         result.compute_elements()
 
-        assert.notEqual(result.elements(), undefined)
-        assert.notEqual(result.elements(), [])
-        assert(_.difference(result.elements(), [3]).length == 0)
+        assert.deepEqual(result.elements(), [3])
       })
 
     })
