@@ -8,6 +8,10 @@
     "lib": "lib",
     "test": "test"
   },
+  "files": [
+    "lib/*",
+    "index.js"
+  ],
   "dependencies": {
     "jsbi": "^3.1.1"
   },
