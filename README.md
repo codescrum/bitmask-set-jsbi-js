@@ -26,12 +26,14 @@ npm install @codescrum/bitmask-set
 ```javascript
 import { BitmaskSet, Bitmask } from "@codescrum/bitmask-set"
 
-// First, we define the set of elements which we will work with.
+// Given an array that you want to operate on
+let myArray = [1,2,3,4,5,6,7,8,9]
 
-let set = new BitmaskSet([1,2,3,4,5,6,7,8,9])
+// We first define the `BitmaskSet` which we will work with.
+let set = new BitmaskSet(myArray)
 
-// Then we define the bitmasks
-// Either by their elements, or, as strings of 1's and 0's)
+// Then we define some bitmasks, representing different sets of elements
+// you pass either their elements, or a strings of 1's and 0's
 
 let a = set.bitmask([1,3,5,7,9]) // let a = set.bitmask("101010101")
 let b = set.bitmask([2,4,6,8])   // let b = set.bitmask("010101010")
@@ -42,33 +44,78 @@ let f = set.bitmask([6,7,8,9])   // let e = set.bitmask("000001111")
 let g = set.bitmask([1,9])       // let g = set.bitmask("100000001")
 
 // For ease of visualization we defined the elements in order when
-// creating the bitmasks, but you can pass the elements in any order.
+// creating the bitmasks, but you can pass the elements in any order, even
+// if they include duplicates when creating the bitmasks.
+//
+// Note that you must use the `BitmaskSet` instance to create the
+// bitmasks based on it, or alternatively instantiate them as:
+  let bitmask = new Bitmask(set, [1,2,3]) // same as set.bitmask([1,3,5])
 
-// Print their string representations
-console.log("a: " + a) // 101010101
-console.log("b: " + b) // 010101010
-console.log("c: " + c) // 101010000
-console.log("d: " + d) // 000001010
-console.log("e: " + e) // 111110000
-console.log("f: " + f) // 000001111
-console.log("g: " + g) // 100000001
+// Print a bitmask's string representation
+log("bitmask: " + bitmask) // bitmask: 111000000
 
-// Some examples
-console.log("a == '101010101': ", (a == '101010101'))       // true
-console.log("a.invert().equals(b): ", a.invert().equals(b)) // true
+//// All the following methods return bitmasks
 
-console.log(`${a}.is_in(${b}): `, a.is_in(b)) // false
-console.log(`${a}.is_in(${c}): `, a.is_in(c)) // false
-console.log(`${c}.is_in(${a}): `, c.is_in(a)) // true
-console.log(`${d}.is_in(${f}): `, d.is_in(f)) // true
-console.log(`${g}.is_in(${a}): `, g.is_in(a)) // true
-console.log(`${g}.is_in(${b}): `, g.is_in(b)) // false
+// These methods are the most basic ones and can only take other
+// bitmasks as arguments
 
-console.log("a.and(b): " + a.and(b))    // 000000000
-console.log("a.or(b): " + a.or(b))      // 111111111
-console.log("a.xor(e): " + a.xor(e))    // 010100101
+a.and(b)              // 000000000 bitwise and
+a.or(b)               // 111111111 bitwise or
+a.xor(e)              // 010100101 bitwise xor
+a.invert()            // 010101010 (like bitwise not)
 
-// Then, a given selection of items can be expressed as follows:
+// These methods can take both bitmasks and elements as arguments
+// Also, they always return a new bitmask (they don't mutate the bitmask
+// you call them on.
+//
+// Note that some are just the same with different names for
+// semantics convenience (expressiveness)
+
+a.add([1,2,3,4,5])    // 111110101 you can add an array of elements
+a.add(e)              // 111110101 you can add elements from another bitmask too
+a.union(e)            // 000000101 same as add (added for convenience)
+a.include(e)          // 111110101 same as add (added for convenience)
+a.remove([1,2,3,4,5]) // 000000101 you can remove an array of elements
+a.remove(e)           // 000000101 you can remove elements from another bitmask too
+a.exclude(e)          // 000000101 same as remove (added for convenience)
+a.distinct(e)         // 000000101 same as xor (added for convenience)
+a.unlike(e)           // 000000101 same as xor (added for convenience)
+a.different(e)        // 000000101 same as xor (added for convenience)
+a.intersection(e)     // 101010000 return elements in common
+a.intersect(e)        // 101010000 same as intersection (added for convenience)
+
+a.is_in(b)            // true  - checks if all elements of a are in b.
+a.is_not_in(b)        // false - a.is_not_in(b) == !a.is_in(b)
+a.is_full()           // false - checks if all elements are present (i.e. "111111111")
+a.is_empty()          // false - checks if no elements are present (i.e. "000000000")
+a.is_zero()           // false - same as is_empty (i.e. "000000000")
+
+// All bitmask methods are `lazy` in the sense they don't compute any
+// elements while you perform operations on them.
+// As long as you are in "bitmask space" you manipulate everything through
+// bitwise operations.
+// Once you are ready to get your final items, just call `elements()`
+
+a.invert().elements() // [2,4,6,8] (note: this result will be memoized)
+
+//// Some more examples
+
+// Compare to string representation
+log("a == '101010101': ", (a == '101010101'))       // true
+
+// Equality between bitmasks
+log("a.invert().equals(b): ", a.invert().equals(b)) // true
+
+log(`${a}.is_in(${b}): `, a.is_in(b)) // false
+log(`${a}.is_in(${c}): `, a.is_in(c)) // false
+log(`${c}.is_in(${a}): `, c.is_in(a)) // true
+log(`${d}.is_in(${f}): `, d.is_in(f)) // true
+log(`${g}.is_in(${a}): `, g.is_in(a)) // true
+log(`${g}.is_in(${b}): `, g.is_in(b)) // false
+
+// Note that you can chain methods since they keep returning
+// bitmasks, so a given selection of elements can be expressed
+// as follows:
 
 let result = a             // Take all elements from `a`
               .distinct(b) // mutually excluding those from `b`
@@ -77,19 +124,19 @@ let result = a             // Take all elements from `a`
               .remove(g)   // then remove those in `g`
               .invert()    // invert the current selection
               
-console.log("result: " + result) // 100000001
+log("result: " + result)   // result: 100000001
 
 // After manipulations, compute final resulting elements.
 // Elements get computed when you first call `elements()`
 // in your resulting bitmask:
-console.debug(result.elements()) // [ 1, 9 ]
+log(result.elements()) // [ 1, 9 ]
 ```
 
 A few things to keep in mind:
 
-- The array of elements you pass in must be of unique values (no duplicates).
-- The order of the elements you pass in is really not important, however the
-  internal operations do rely on this order being preserved.
+- The array of elements you pass in to create the `BitmaskSet` is assumed to be of unique values (no duplicates). This _may_ not be an issue, since the internal presentation will remove duplicate elements anyway.
+- The order of the elements you pass in to create the BitmaskSet or the bitmasks
+  is really not important. But the internal operations do rely on this order being preserved.
 - The array of elements cannot be empty, you must check this case before
   attempting to create the `BitmaskSet`.
 
