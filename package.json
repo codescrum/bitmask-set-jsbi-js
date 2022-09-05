@@ -29,7 +29,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@bitbucket.org/codescrum/js-bitmask_set.git"
+    "url": "https://github.com/codescrum/bitmask-set-jsbi-js/"
   },
   "keywords": [
     "array optimization",
@@ -41,7 +41,7 @@
     "set optimization",
     "set intersection"
   ],
-  "author": "Miguel Diaz",
+  "author": "Miguel Diaz @ Codescrum Ltd",
   "license": "MIT",
-  "homepage": "https://bitbucket.org/codescrum/js-bitmask_set#readme"
+  "homepage": "https://github.com/codescrum/bitmask-set-jsbi-js/"
 }
