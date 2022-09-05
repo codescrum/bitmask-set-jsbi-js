@@ -1,4 +1,4 @@
-# Bitmask Set
+# Bitmask Set (JSBI)
 
 *Convert arrays to bitmask representations to quickly operate with them through bitwise operations.*
 
