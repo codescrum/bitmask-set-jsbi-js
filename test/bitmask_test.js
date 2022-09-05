@@ -355,7 +355,7 @@ describe('Bitmask', function () {
         //
         // Note that you must use the `BitmaskSet` instance to create the
         // bitmasks based on it, or alternatively instantiate them as:
-         let bitmask = new Bitmask(set, [1,2,3]) // same as set.bitmask([1,3,5])
+        let bitmask = new Bitmask(set, [1,2,3]) // same as set.bitmask([1,3,5])
 
         // Print a bitmask's string representation
         log("bitmask: " + bitmask) // bitmask: 111000000

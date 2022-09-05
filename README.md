@@ -49,10 +49,10 @@ let g = set.bitmask([1,9])       // let g = set.bitmask("100000001")
 //
 // Note that you must use the `BitmaskSet` instance to create the
 // bitmasks based on it, or alternatively instantiate them as:
-  let bitmask = new Bitmask(set, [1,2,3]) // same as set.bitmask([1,3,5])
+let bitmask = new Bitmask(set, [1,2,3]) // same as set.bitmask([1,3,5])
 
 // Print a bitmask's string representation
-log("bitmask: " + bitmask) // bitmask: 111000000
+console.log("bitmask: " + bitmask) // bitmask: 111000000
 
 //// All the following methods return bitmasks
 
@@ -101,17 +101,17 @@ a.invert().elements() // [2,4,6,8] (note: this result will be memoized)
 //// Some more examples
 
 // Compare to string representation
-log("a == '101010101': ", (a == '101010101'))       // true
+console.log("a == '101010101': ", (a == '101010101'))       // true
 
 // Equality between bitmasks
-log("a.invert().equals(b): ", a.invert().equals(b)) // true
+console.log("a.invert().equals(b): ", a.invert().equals(b)) // true
 
-log(`${a}.is_in(${b}): `, a.is_in(b)) // false
-log(`${a}.is_in(${c}): `, a.is_in(c)) // false
-log(`${c}.is_in(${a}): `, c.is_in(a)) // true
-log(`${d}.is_in(${f}): `, d.is_in(f)) // true
-log(`${g}.is_in(${a}): `, g.is_in(a)) // true
-log(`${g}.is_in(${b}): `, g.is_in(b)) // false
+console.log(`${a}.is_in(${b}): `, a.is_in(b)) // false
+console.log(`${a}.is_in(${c}): `, a.is_in(c)) // false
+console.log(`${c}.is_in(${a}): `, c.is_in(a)) // true
+console.log(`${d}.is_in(${f}): `, d.is_in(f)) // true
+console.log(`${g}.is_in(${a}): `, g.is_in(a)) // true
+console.log(`${g}.is_in(${b}): `, g.is_in(b)) // false
 
 // Note that you can chain methods since they keep returning
 // bitmasks, so a given selection of elements can be expressed
@@ -124,12 +124,12 @@ let result = a             // Take all elements from `a`
               .remove(g)   // then remove those in `g`
               .invert()    // invert the current selection
               
-log("result: " + result)   // result: 100000001
+console.log("result: " + result)   // result: 100000001
 
 // After manipulations, compute final resulting elements.
 // Elements get computed when you first call `elements()`
 // in your resulting bitmask:
-log(result.elements()) // [ 1, 9 ]
+console.debug(result.elements()) // [ 1, 9 ]
 ```
 
 A few things to keep in mind:
@@ -242,3 +242,7 @@ _We didn't tested them all, we just put a reasonble list for your reference._
 ## License
 
 MIT
+
+## Contributors
+
+Miguel Diaz (@gato-omega)[https://github.com/gato-omega]
