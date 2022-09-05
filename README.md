@@ -20,11 +20,11 @@ You can check the state of BigInt adoption here: https://caniuse.com/?search=big
 ## Usage
 
 ```bash
-npm install @codescrum/bitmask-set
+npm install @codescrum/bitmask-set-jsbi
 ```
 
 ```javascript
-import { BitmaskSet, Bitmask } from "@codescrum/bitmask-set"
+import { BitmaskSet, Bitmask } from "@codescrum/bitmask-set-jsbi"
 
 // Given an array that you want to operate on
 let myArray = [1,2,3,4,5,6,7,8,9]
