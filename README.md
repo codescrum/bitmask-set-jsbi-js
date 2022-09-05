@@ -1,6 +1,6 @@
 # Bitmask Set
 
-*Convert fixed-size unique-element arrays to bitmask representations to quickly operate with them through bitwise operations.*
+*Convert arrays to bitmask representations to quickly operate with them through bitwise operations.*
 
 In general, this approach can be applied to whenever you want to:
 

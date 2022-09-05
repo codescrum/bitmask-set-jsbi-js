@@ -2,7 +2,7 @@
   "name": "@codescrum/bitmask-set-jsbi",
   "version": "0.0.1",
   "type": "module",
-  "description": "Convert fixed-size unique-element arrays to bitmask representations to quickly operate with them through bitwise operations.",
+  "description": "Convert arrays to bitmask representations to quickly operate with them through bitwise operations.",
   "main": "index.js",
   "directories": {
     "lib": "lib",
