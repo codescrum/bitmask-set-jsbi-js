@@ -7,7 +7,7 @@ In general, this approach can be applied to whenever you want to:
 1. Quickly retrieve the intersection betwen two (or more) arrays of elements.
 2. Quickly add/remove elements of other arrays to/from a particular array.
 
-*Note:* The approach implemented here might work best if you need to operate
+The approach implemented here might work best if you need to operate
 with many arrays/sets instead of just a couple.
 
 *Important:* This package depends on the JSBI — pure-JavaScript BigInts library for compatibility.
@@ -16,6 +16,8 @@ See https://github.com/GoogleChromeLabs/jsbi, https://www.npmjs.com/package/jsbi
 and https://v8.dev/features/bigint for information on this.
 
 You can check the state of BigInt adoption here: https://caniuse.com/?search=bigint.
+
+For a more modern version of this package (using native BigInt) please see: https://github.com/codescrum/bitmask-set-js
 
 ## Usage
 
